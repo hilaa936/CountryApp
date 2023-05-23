@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useQuery } from "react-query";
-import { queryClient } from "../queryClient";
 
 const API_URL = "http://localhost:5077/api/country";
 

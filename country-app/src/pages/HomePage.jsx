@@ -3,12 +3,27 @@ import CountriesDropdown from "../components/CountriesDropdown";
 import CountrySearch from "../components/CountrySearch";
 import { Link } from "react-router-dom";
 import AutocompleteDropdown from "../components/AutocompleteDropdown";
-import { useCountries, useSearchCountries } from "../services/CountryService";
+import {
+  useCountries,
+  useSearchCountries,
+  fetchCountries,
+} from "../services/CountryService";
 
 const HomePage = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [searchText, setSearchText] = useState("");
-  const { data: countries } = useCountries();
+  const [countries, setCountries] = useState([]);
+  //option 1 : useEffect fetcing countries
+  useEffect(() => {
+    const initialCountries = async () => {
+      const data = await fetchCountries();
+      setCountries(data);
+    };
+
+    initialCountries();
+  }, []);
+  // another option is to use this method instead of useEffect because i wanted to store the countries on caching
+  // const { data: countries } = useCountries();
 
   const filteredCountries = useSearchCountries(searchText);
 
@@ -36,8 +51,9 @@ const HomePage = () => {
         onChange={(event) => setSearchText(event.target.value)}
       />
 
-      {/* {selectedCountry && (
+      {selectedCountry && (
         <div>
+          <h1>Selected country</h1>
           <Link to={`/country-details/${selectedCountry.name}`}>
             <h2>{selectedCountry.name}</h2>
           </Link>
@@ -48,7 +64,7 @@ const HomePage = () => {
             alt="Country Flag"
           />
         </div>
-      )} */}
+      )}
       {(!countries || countries.length === 0) && (
         <p>error fetching countries </p>
       )}
