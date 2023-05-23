@@ -1,0 +1,27 @@
+@url = http://localhost:5077/api
+@token = tokenstring
+
+GET {{url}}/country
+
+
+### POST - Comment a post
+POST {{url}}/posts/comment/63575d694ee1c8a431978270
+content-type: application/json
+x-auth-token: {{token}}
+
+{
+    "text": "this is a comments"
+}
+### DELETE - delete Comment 
+DELETE {{url}}/posts/comment/63575d694ee1c8a431978270/6357665d23391f7f26d29121
+content-type: application/json
+x-auth-token: {{token}}
+
+{
+    "text": "this is a comments"
+}
+
+### GET - get all posts
+GET {{url}}/posts/
+content-type: application/json
+x-auth-token: {{token}}
